@@ -1,0 +1,69 @@
+#define TRIG_PIN 7
+#define ECHO_PIN 6
+#define RED_LED 10
+#define YELLOW_LED 9
+#define GREEN_LED 8
+#define BUZZER 5
+
+void setup() {
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(RED_LED, OUTPUT);
+  pinMode(YELLOW_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  Serial.begin(9600);
+
+  // Initialize traffic light to red
+  digitalWrite(RED_LED, HIGH);
+  digitalWrite(YELLOW_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+}
+
+void loop() {
+  long duration, distance;
+  
+  // Send a pulse to trigger the ultrasonic sensor
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  
+  // Read the echo pin for the distance measurement
+  duration = pulseIn(ECHO_PIN, HIGH);
+  distance = (duration / 2) / 29.1; // Convert to cm
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  if (distance < 20) { // Vehicle detected within 20 cm
+    // Change traffic light to green
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(GREEN_LED, HIGH);
+    delay(5000); // Keep green light on for 5 seconds
+
+    // Change to yellow light
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(YELLOW_LED, HIGH);
+    delay(2000); // Yellow light for 2 seconds
+
+    // Change back to red light
+    digitalWrite(YELLOW_LED, LOW);
+    digitalWrite(RED_LED, HIGH);
+
+    // Optional buzzer alert
+    digitalWrite(BUZZER, HIGH);
+    delay(1000); // Buzzer on for 1 second
+    digitalWrite(BUZZER, LOW);
+  } else {
+    // No vehicle detected, keep red light on
+    digitalWrite(RED_LED, HIGH);
+    digitalWrite(YELLOW_LED, LOW);
+    digitalWrite(GREEN_LED, LOW);
+  }
+
+  delay(1000); // Delay before the next loop iteration
+}
