@@ -96,3 +96,5 @@ In a simplified smart traffic management system using Arduino, the following com
    - Use machine learning algorithms to predict traffic patterns and optimize control strategies.
 
 A smart city traffic management system aims to create a seamless, efficient, and safe urban traffic environment by leveraging modern technology and data-driven insights.
+![Screenshot 2024-06-18 140427](https://github.com/venukrishnan7/CODTECH-Task2/assets/166130280/07215cfc-3706-4000-b9e4-5e46eac26386)
+
